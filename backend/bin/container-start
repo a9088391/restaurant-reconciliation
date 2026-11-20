@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+if [ -z "${SECRET_KEY_BASE:-}" ]; then
+  SECRET_KEY_BASE=$(ruby -rsecurerandom -e 'print SecureRandom.hex(64)')
+  export SECRET_KEY_BASE
+fi
+
+bin/rails db:migrate
+exec bin/rails server -b 0.0.0.0 -p 3000

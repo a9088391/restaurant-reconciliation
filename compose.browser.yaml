@@ -1,0 +1,26 @@
+services:
+  app:
+    ports: !reset []
+    configs:
+      - source: browser_target
+        target: /app/backend/public/__ticket01_browser_target.txt
+  browser:
+    profiles: [browser]
+    build:
+      context: .
+      target: browser
+    network_mode: service:app
+    init: true
+    shm_size: 256m
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      BROWSER_TEST_PROJECT: ${COMPOSE_PROJECT_NAME}
+    volumes:
+      - ./.test-output/t02-browser/playwright:/app/frontend/test-results
+    command: ["npm", "run", "test:browser"]
+
+configs:
+  browser_target:
+    content: ${COMPOSE_PROJECT_NAME}

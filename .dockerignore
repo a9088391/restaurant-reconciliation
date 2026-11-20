@@ -1,0 +1,10 @@
+.git
+.scratch
+.test-output
+backend/log
+backend/tmp
+backend/.bundle
+frontend/node_modules
+frontend/dist
+frontend/test-results
+frontend/playwright-report

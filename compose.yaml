@@ -1,0 +1,38 @@
+name: restaurant-reconciliation
+
+services:
+  app:
+    build:
+      context: .
+      target: app
+    command: ["bin/container-start"]
+    environment:
+      RAILS_ENV: production
+      RECONCILIATION_DB_PASSWORD: reconciliation-local
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:3216:3000"
+    healthcheck:
+      test: ["CMD", "ruby", "-rnet/http", "-e", "exit(Net::HTTP.get_response(URI('http://127.0.0.1:3000/api/csrf_token')).is_a?(Net::HTTPOK))"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  db:
+    image: postgres:18.7@sha256:2ea8630df176ad090ec92136dee850397c5af8781e4bcf2e4162593691c61bbc
+    environment:
+      POSTGRES_USER: reconciliation
+      POSTGRES_PASSWORD: reconciliation-local
+      POSTGRES_DB: restaurant_reconciliation
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "reconciliation", "-d", "restaurant_reconciliation"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+volumes:
+  pgdata:

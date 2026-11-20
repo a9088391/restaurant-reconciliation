@@ -1,0 +1,35 @@
+AllCops:
+  TargetRubyVersion: 3.4
+  NewCops: enable
+  Exclude:
+    - db/schema.rb
+  SuggestExtensions: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# 遷移與測試案例的 DSL 保留完整欄位及驗收資料。
+Metrics/AbcSize:
+  Max: 25
+  Exclude:
+    - db/migrate/*.rb
+
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+    - db/migrate/*.rb
+
+Metrics/ClassLength:
+  CountAsOne: [array, hash, heredoc]
+  Exclude:
+    - test/**/*_test.rb
+
+Metrics/BlockLength:
+  AllowedMethods: [test]
+
+Style/StringConcatenation:
+  Exclude:
+    - test/**/*_test.rb

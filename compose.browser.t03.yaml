@@ -1,0 +1,6 @@
+services:
+  browser:
+    environment:
+      BROWSER_TEST_T03_OUTPUT: 'yes'
+    volumes:
+      - ./.test-output/t03-browser/playwright:/app/frontend/test-results

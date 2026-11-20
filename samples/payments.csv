@@ -1,0 +1,9 @@
+event_id,store_id,business_date,payment_method,event_type,amount,original_event_id
+cash-1,A,2026-11-01,cash,normal,1000,
+card-1,A,2026-11-01,credit_card,normal,750,
+card-1,B,2026-11-01,credit_card,normal,300,
+cash-0,C,2026-11-01,cash,normal,0,
+refund-cash-1,A,2026-11-03,cash,refund,300,cash-1
+refund-cash-2,A,2026-11-03,cash,refund,200,cash-1
+refund-card-1,A,2026-11-04,credit_card,refund,750,card-1
+cancel-card-1,C,2026-11-01,credit_card,cancel,150,

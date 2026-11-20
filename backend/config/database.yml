@@ -1,0 +1,15 @@
+default: &default
+  adapter: postgresql
+  username: reconciliation
+  password: <%= ENV["RECONCILIATION_DB_PASSWORD"] %>
+  pool: 5
+
+production:
+  <<: *default
+  host: db
+  database: restaurant_reconciliation
+
+test:
+  <<: *default
+  host: test-db
+  database: restaurant_reconciliation_test

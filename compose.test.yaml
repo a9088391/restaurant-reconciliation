@@ -1,0 +1,30 @@
+name: restaurant-reconciliation-test
+
+services:
+  backend:
+    build:
+      context: .
+      target: backend
+    environment:
+      RAILS_ENV: test
+      RECONCILIATION_DB_PASSWORD: reconciliation-test
+    depends_on:
+      test-db:
+        condition: service_healthy
+
+  test-db:
+    image: postgres:18.7@sha256:2ea8630df176ad090ec92136dee850397c5af8781e4bcf2e4162593691c61bbc
+    environment:
+      POSTGRES_USER: reconciliation
+      POSTGRES_PASSWORD: reconciliation-test
+      POSTGRES_DB: restaurant_reconciliation_test
+    volumes:
+      - test_pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "reconciliation", "-d", "restaurant_reconciliation_test"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+volumes:
+  test_pgdata:
